@@ -12,7 +12,7 @@
 <div class="common-nav">
   <a href="#search-add-box" class="active">筛选用户</a>
   <a href="#add-form-box" >添加用户</a>
-  <a href="#common" >用户列表</a>
+  <a href="#user-list-box" >用户列表</a>
   <a href="${pageContext.request.contextPath}/login.jsp">退出登录</a>
 </div>
 
@@ -96,7 +96,7 @@
   </div>
 
   <!-- 用户列表 -->
-  <h3 class="common-h3" id="add-form-box">用户列表</h3>
+  <h3 class="common-h3" id="user-list-box">用户列表</h3>
   <c:if test="${empty userList}">
     <div class="common-empty">暂无用户数据，请先添加用户！</div>
   </c:if>
