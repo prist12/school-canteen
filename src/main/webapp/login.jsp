@@ -81,7 +81,6 @@
             <select id="userType" name="userType" required>
                 <option value="">--请选择用户类型--</option>
                 <option value="1">系统管理员</option>
-                <option value="2">教师</option>
                 <option value="3">家长</option>
                 <option value="4">学生</option>
                 <option value="5">餐饮员</option>

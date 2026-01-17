@@ -32,9 +32,9 @@ public class CateringController {
     public String cateringIndex(Model model) {
         // 1. 查询当日所有菜品（按餐段分类）
         Date today = new Date(System.currentTimeMillis());
-        List<Dish> breakfastList = dishService1.getDailyMenu(today, 1); // 早餐
-        List<Dish> lunchList = dishService1.getDailyMenu(today, 2);   // 午餐
-        List<Dish> dinnerList = dishService1.getDailyMenu(today, 3);  // 晚餐
+        List<Dish> breakfastList = dishService1.getDailyMenuAllStatus(today, 1); // 早餐
+        List<Dish> lunchList = dishService1.getDailyMenuAllStatus(today, 2);   // 午餐
+        List<Dish> dinnerList = dishService1.getDailyMenuAllStatus(today, 3);  // 晚餐
         model.addAttribute("breakfastList", breakfastList);
         model.addAttribute("lunchList", lunchList);
         model.addAttribute("dinnerList", dinnerList);

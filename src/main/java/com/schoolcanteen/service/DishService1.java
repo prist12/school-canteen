@@ -77,4 +77,7 @@ public class DishService1 {
     public Dish getDishById(Long dishid) {
         return dishMapper.selectByDishid(dishid);
     }
+    public List<Dish> getDailyMenuAllStatus(Date date, Integer mealType) {
+        return dishMapper.getDailyMenuAllStatus(date, mealType);
+    }
 }

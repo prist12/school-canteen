@@ -27,7 +27,14 @@
         SELECT * FROM t_dish WHERE meal_type = #{mealType} AND status = 1 ORDER BY dish_date DESC
     </select>
 
-
+    <select id="getDailyMenuAllStatus" resultMap="DishResultMap">
+    SELECT
+    *,
+    (total_stock - sold_count) AS remaining_stock  <!-- 兜底计算剩余库存 -->
+    FROM t_dish
+    WHERE DATE(dish_date) = DATE(#{dishDate})
+    AND meal_type = #{mealType}
+    </select>
     <select id="selectByDateAndMealType" resultMap="DishResultMap">
         SELECT
         *,

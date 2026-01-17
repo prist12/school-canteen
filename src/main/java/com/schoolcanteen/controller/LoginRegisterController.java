@@ -56,8 +56,6 @@ private UserService1 userService1;
             switch (userType) {
                 case 1: // 系统管理员
                     return "redirect:/admin"; // 重定向到管理员首页
-                case 2: // 教师
-                    return "redirect:/teacher"; // 重定向到教师首页
                 case 3: // 家长
                     return "redirect:/parent"; // 重定向到家长首页
                 case 4: // 学生

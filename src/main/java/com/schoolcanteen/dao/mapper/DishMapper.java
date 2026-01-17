@@ -15,6 +15,7 @@ public interface DishMapper {
     int updateStatus(@Param("dishid") Long dishid, @Param("status") Integer status);
     List<Dish> selectByMealType(@Param("mealType") Integer mealType);
     Dish selectByDishid(Long dishid);
+    List<Dish> getDailyMenuAllStatus(@Param("dishDate")Date dishDate, @Param("mealType") Integer mealType);
 
     List<Dish> selectByDateAndMealType(@Param("dishDate") Date dishDate, @Param("mealType") Integer mealType);
 
