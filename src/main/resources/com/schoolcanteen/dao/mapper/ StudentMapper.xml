@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.schoolcanteen.dao.mapper.StudentMapper">
+
+    <resultMap id="StudentResultMap" type="com.schoolcanteen.entity.Student">
+        <id property="studentid" column="student_id" />
+        <result property="userId" column="user_id" />
+        <result property="studentNo" column="student_no" />
+        <result property="className" column="class_name" />
+        <result property="gender" column="gender" />
+        <result property="balance" column="balance" />
+        <result property="parentId" column="parent_id" />
+        <result property="parentBindStatus" column="parent_bind_status" />
+        <result property="teacherId" column="teacher_id" />
+        <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <select id="selectByStudentid" resultMap="StudentResultMap">
+        SELECT * FROM t_student WHERE student_id = #{studentid}
+    </select>
+
+    <select id="selectByUserid" resultMap="StudentResultMap">
+        SELECT * FROM t_student WHERE user_id = #{userid}
+    </select>
+
+    <select id="selectByStudentNo" resultMap="StudentResultMap">
+        SELECT * FROM t_student WHERE student_no = #{studentNo}
+    </select>
+
+    <insert id="insert" parameterType="com.schoolcanteen.entity.Student" useGeneratedKeys="true" keyProperty="studentid">
+        INSERT INTO t_student (user_id, student_no, class_name, gender, balance, parent_id, parent_bind_status, teacher_id, create_time)
+        VALUES (#{userId}, #{studentNo}, #{className}, #{gender}, #{balance}, #{parentId}, #{parentBindStatus}, #{teacherId}, #{createTime})
+    </insert>
+
+    <update id="update" parameterType="com.schoolcanteen.entity.Student">
+        UPDATE t_student
+        SET student_no = #{studentNo},
+            class_name = #{className},
+            gender = #{gender},
+            parent_id = #{parentId},
+            parent_bind_status = #{parentBindStatus},
+            teacher_id = #{teacherId}
+        WHERE student_id = #{studentid}
+    </update>
+
+    <update id="updateBalance">
+        UPDATE t_student SET balance = #{balance} WHERE student_id = #{studentid}
+    </update>
+
+    <select id="selectByClassName" resultMap="StudentResultMap">
+        SELECT * FROM t_student WHERE class_name = #{className}
+    </select>
+
+    <select id="selectByParentId" resultMap="StudentResultMap">
+        SELECT * FROM t_student WHERE parent_id = #{parentId}
+    </select>
+
+    <update id="updateParentBindStatus">
+        UPDATE t_student
+        SET parent_id = #{parentId}, parent_bind_status = #{status}
+        WHERE student_id = #{studentid}
+    </update>
+</mapper>

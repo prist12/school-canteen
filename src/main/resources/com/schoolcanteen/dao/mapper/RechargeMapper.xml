@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.schoolcanteen.dao.mapper.RechargeMapper">
+
+    <resultMap id="RechargeResultMap" type="com.schoolcanteen.entity.Recharge">
+        <id property="rechargeid" column="rechargeid" />
+        <result property="rechargeNo" column="recharge_no" />
+        <result property="studentId" column="student_id" />
+        <result property="rechargeType" column="recharge_type" />
+        <result property="rechargeUserId" column="recharge_user_id" />
+        <result property="amount" column="amount" />
+        <result property="payMethod" column="pay_method" />
+        <result property="payStatus" column="pay_status" />
+        <result property="payTime" column="pay_time" />
+    </resultMap>
+
+    <select id="selectByRechargeid" resultMap="RechargeResultMap">
+        SELECT * FROM t_recharge WHERE recharge_id = #{rechargeid}
+    </select>
+
+    <select id="selectByRechargeNo" resultMap="RechargeResultMap">
+        SELECT * FROM t_recharge WHERE recharge_no = #{rechargeNo}
+    </select>
+
+    <select id="selectByStudentId" resultMap="RechargeResultMap">
+        SELECT * FROM t_recharge
+        WHERE student_id = #{studentId}
+        <if test="startDate != null">
+            AND DATE(pay_time) >= DATE(#{startDate})
+        </if>
+        <if test="endDate != null">
+            AND DATE(pay_time) &lt;= DATE(#{endDate})
+        </if>
+        ORDER BY pay_time DESC
+    </select>
+
+    <insert id="insert" parameterType="com.schoolcanteen.entity.Recharge" useGeneratedKeys="true" keyProperty="rechargeid">
+        INSERT INTO t_recharge (recharge_no, student_id, recharge_type, recharge_user_id, amount, pay_method, pay_status, pay_time)
+        VALUES (#{rechargeNo}, #{studentId}, #{rechargeType}, #{rechargeUserId}, #{amount}, #{payMethod}, #{payStatus}, #{payTime})
+    </insert>
+
+    <update id="updatePayStatus">
+        UPDATE t_recharge
+        SET pay_status = #{payStatus},
+            pay_time = #{payTime}
+        WHERE recharge_id = #{rechargeid}
+    </update>
+
+    <select id="sumAmountByStudent" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(amount), 0)
+        FROM t_recharge
+        WHERE student_id = #{studentId}
+        AND pay_status = 1
+        <if test="startDate != null">
+            AND DATE(pay_time) >= DATE(#{startDate})
+        </if>
+        <if test="endDate != null">
+            AND DATE(pay_time) &lt;= DATE(#{endDate})
+        </if>
+    </select>
+</mapper>

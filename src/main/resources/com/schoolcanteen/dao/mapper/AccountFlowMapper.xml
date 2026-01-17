@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.schoolcanteen.dao.mapper.AccountFlowMapper">
+
+    <resultMap id="AccountFlowResultMap" type="com.schoolcanteen.entity.AccountFlow">
+        <id property="accountflowid" column="accountflowid" />
+        <result property="studentId" column="student_id" />
+        <result property="flowType" column="flow_type" />
+        <result property="amount" column="amount" />
+        <result property="currentBalance" column="current_balance" />
+        <result property="relateNo" column="relate_no" />
+        <result property="operatorId" column="operator_id" />
+        <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.schoolcanteen.entity.AccountFlow" useGeneratedKeys="true" keyProperty="accountflowid">
+        INSERT INTO t_account_flow (student_id, flow_type, amount, current_balance, relate_no, operator_id, create_time)
+        VALUES (#{studentId}, #{flowType}, #{amount}, #{currentBalance}, #{relateNo}, #{operatorId}, #{createTime})
+    </insert>
+
+    <select id="selectByStudentId" resultMap="AccountFlowResultMap">
+        SELECT * FROM t_account_flow
+        WHERE student_id = #{studentId}
+        <if test="flowType != null">
+            AND flow_type = #{flowType}
+        </if>
+        <if test="startTime != null">
+            AND DATE(create_time) >= DATE(#{startTime})
+        </if>
+        <if test="endTime != null">
+            AND DATE(create_time) &lt;= DATE(#{endTime})
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="sumAmountByStudentAndType" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(amount), 0)
+        FROM t_account_flow
+        WHERE student_id = #{studentId}
+        AND flow_type = #{flowType}
+        <if test="startTime != null">
+            AND DATE(create_time) >= DATE(#{startTime})
+        </if>
+        <if test="endTime != null">
+            AND DATE(create_time) &lt;= DATE(#{endTime})
+        </if>
+    </select>
+</mapper>
